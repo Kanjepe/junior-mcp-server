@@ -12,14 +12,21 @@
     "start": "node dist/index.js",
     "dev": "tsc --watch"
   },
-  "keywords": ["mcp", "openai", "claude-code", "gpt-5.2-codex", "junior"],
+  "keywords": [
+    "mcp",
+    "openai",
+    "claude-code",
+    "gpt-5.2-codex",
+    "junior"
+  ],
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
     "zod": "^3.24.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
+    "@biomejs/biome": "^2.3.14",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
   }
 }
