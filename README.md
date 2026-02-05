@@ -16,21 +16,68 @@ Because two brains are better than one. Claude is your lead dev. Junior is the e
 | `junior_review` | Code review with deep analysis | Always high |
 | `junior_brainstorm` | Creative brainstorming mode | Always xhigh (maximum thinking) |
 
+## Authentication
+
+Junior supports two authentication methods:
+
+### Option 1: API Key (standard)
+
+Set your OpenAI API key as an environment variable:
+
+```bash
+export OPENAI_API_KEY=sk-your-key
+```
+
+Uses the standard OpenAI API (`api.openai.com/v1/responses`).
+
+### Option 2: OpenAI OAuth (ChatGPT Plus/Pro subscription)
+
+Log in with your OpenAI account — no API key needed:
+
+```bash
+junior auth login
+```
+
+This opens your browser for OpenAI's OAuth flow (same as Codex CLI). Tokens are stored in `~/.junior/auth.json`. Uses the ChatGPT backend (`chatgpt.com/backend-api/codex/responses`).
+
+### Auth Precedence
+
+1. `OPENAI_API_KEY` env var (if set, always used)
+2. OAuth tokens from `junior auth login`
+3. Error with instructions for both options
+
+### CLI Commands
+
+```bash
+junior auth login    # Log in via OpenAI OAuth (opens browser)
+junior auth logout   # Clear stored OAuth tokens
+junior auth status   # Show current authentication method
+```
+
 ## Setup
 
 ### 1. Build it
 
 ```bash
 cd junior-mcp-server
-npm install
-npm run build
+pnpm install
+pnpm build
 ```
 
 ### 2. Add to Claude Code
 
+With API key:
+
 ```bash
 claude mcp add junior \
   --env OPENAI_API_KEY=sk-your-key \
+  -- node /absolute/path/to/junior-mcp-server/dist/index.js
+```
+
+With OAuth (after running `junior auth login`):
+
+```bash
+claude mcp add junior \
   -- node /absolute/path/to/junior-mcp-server/dist/index.js
 ```
 
@@ -55,7 +102,7 @@ Just talk to Claude Code naturally:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `OPENAI_API_KEY` | (required) | Your OpenAI API key |
+| `OPENAI_API_KEY` | (optional) | OpenAI API key. If not set, uses OAuth tokens |
 | `JUNIOR_MODEL` | `gpt-5.2-codex` | Which OpenAI model Junior uses |
 | `JUNIOR_REASONING` | `high` | Default reasoning effort: `low`, `medium`, `high`, `xhigh` |
 

@@ -4,6 +4,7 @@
   "description": "🧑‍💻 'Junior' — your OpenAI-powered intern inside Claude Code. Delegates tasks to GPT-5.2-Codex with thinking enabled.",
   "main": "dist/index.js",
   "bin": {
+    "junior": "dist/index.js",
     "junior-mcp": "dist/index.js"
   },
   "type": "module",

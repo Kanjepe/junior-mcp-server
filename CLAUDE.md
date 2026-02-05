@@ -25,13 +25,28 @@ Junior is an MCP (Model Context Protocol) server that acts as a sidecar to Claud
 
 ## Architecture
 
-Single-file server: `src/index.ts` → compiled to `dist/index.js`.
+Modular structure compiled to `dist/` via `tsc`:
 
-The file is organized into four sections:
-1. **Config** — reads `OPENAI_API_KEY`, `JUNIOR_MODEL`, `JUNIOR_REASONING` from env vars
-2. **OpenAI caller** (`callJunior`) — direct HTTP to `/v1/responses` endpoint, parses output text + thinking summaries + token usage
-3. **Formatter** (`formatResponse`) — assembles thinking summary, answer, and usage stats
-4. **MCP server** — registers the three tools with Zod input schemas and tool annotations, then connects via `StdioServerTransport`
+```
+src/
+  index.ts                  # CLI dispatcher: no args → MCP server, auth subcommands → CLI
+  server.ts                 # MCP server + 3 tool registrations, exports startServer()
+  auth/
+    constants.ts            # OAuth endpoints, client ID, scopes, API URLs, token paths
+    jwt.ts                  # JWT decode (zero deps, uses Buffer)
+    token-store.ts          # Read/write ~/.junior/auth.json
+    oauth.ts                # PKCE helpers: build URL, exchange code, refresh tokens
+  api/
+    openai.ts               # callJunior(), formatResponse(), resolveCredentials()
+  cli/
+    auth.ts                 # login/logout/status command handlers
+```
+
+Key modules:
+1. **API** (`src/api/openai.ts`) — `resolveCredentials()` picks auth method (env var → standard API, OAuth tokens → ChatGPT backend), `callJunior()` makes the HTTP call, `formatResponse()` assembles output
+2. **Auth** (`src/auth/`) — OAuth PKCE flow, JWT decoding, token storage in `~/.junior/auth.json`
+3. **MCP server** (`src/server.ts`) — registers three tools with Zod schemas and tool annotations, connects via `StdioServerTransport`
+4. **CLI** (`src/cli/auth.ts`) — `junior auth login` opens browser for OAuth, `junior auth logout` clears tokens, `junior auth status` shows current method
 
 ## Key Conventions
 
@@ -46,15 +61,22 @@ The file is organized into four sections:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `OPENAI_API_KEY` | Yes | — | OpenAI API key |
+| `OPENAI_API_KEY` | No | — | OpenAI API key. If not set, uses OAuth tokens from `junior auth login` |
 | `JUNIOR_MODEL` | No | `gpt-5.2-codex` | Model to use |
 | `JUNIOR_REASONING` | No | `high` | Default reasoning effort (`low`/`medium`/`high`/`xhigh`) |
 
 ## Claude Code Integration
 
+With API key:
 ```bash
 claude mcp add junior \
   --env OPENAI_API_KEY=sk-your-key \
+  -- node /absolute/path/to/dist/index.js
+```
+
+With OAuth (after `junior auth login`):
+```bash
+claude mcp add junior \
   -- node /absolute/path/to/dist/index.js
 ```
 
