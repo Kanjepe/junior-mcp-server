@@ -57,3 +57,22 @@ claude mcp add junior \
   --env OPENAI_API_KEY=sk-your-key \
   -- node /absolute/path/to/dist/index.js
 ```
+
+### Git Commit & Pull Request Guidelines
+
+Pattern: `<type>(<optional scope>)!: <Capitalized description>`
+Regex: `^(feat|fix|perf|test|docs|refactor|build|ci|chore|revert)(\([a-zA-Z0-9 ]+\))?!?: [A-Z].+[^.]$`
+
+- Commit messages MUST be single-line only: just the title, no body, no blank lines.
+- Format: `<type>(<optional scope>)!: <Capitalized description>` with allowed types `feat`, `fix`, `perf`, `test`, `docs`, `refactor`, `build`, `ci`, `chore`, `revert`.
+- Use `!` before colon only for breaking changes. Keep descriptions capitalized without trailing period.
+- Example: `feat(api): Add category filter`
+- Do NOT append `Co-Authored-By` or any other trailers to commit messages.
+- PRs should include: summary, linked issues, steps to test, notes on migrations, config changes.
+- CI readiness: ensure `pytest` and `ruff check .` pass locally before requesting review.
+
+## Rules
+
+- After implementing or removing any feature, update relevant documentation in `docs/`
+- Use Biome for formatting and linting, never ESLint
+- Use pnpm, never npm or yarn
