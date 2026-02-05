@@ -39,15 +39,17 @@ src/
     oauth.ts                # PKCE helpers: build URL, exchange code, refresh tokens
   api/
     openai.ts               # callJunior(), formatResponse(), resolveCredentials()
+    rate-limit.ts            # In-memory 429 rate limit tracker with Retry-After parsing
   cli/
     auth.ts                 # login/logout/status command handlers
 ```
 
 Key modules:
 1. **API** (`src/api/openai.ts`) — `resolveCredentials()` picks auth method (env var → standard API, OAuth tokens → ChatGPT backend), `callJunior()` makes the HTTP call, `formatResponse()` assembles output
-2. **Auth** (`src/auth/`) — OAuth PKCE flow, JWT decoding, token storage in `~/.junior/auth.json`
-3. **MCP server** (`src/server.ts`) — registers three tools with Zod schemas and tool annotations, connects via `StdioServerTransport`
-4. **CLI** (`src/cli/auth.ts`) — `junior auth login` opens browser for OAuth, `junior auth logout` clears tokens, `junior auth status` shows current method
+2. **Rate Limiter** (`src/api/rate-limit.ts`) — In-memory rate limit tracker. Records 429 responses with `Retry-After` parsing, blocks subsequent calls until cooldown expires. Resets on server restart.
+3. **Auth** (`src/auth/`) — OAuth PKCE flow, JWT decoding, token storage in `~/.junior/auth.json`
+4. **MCP server** (`src/server.ts`) — registers three tools with Zod schemas and tool annotations, connects via `StdioServerTransport`
+5. **CLI** (`src/cli/auth.ts`) — `junior auth login` opens browser for OAuth, `junior auth logout` clears tokens, `junior auth status` shows current method
 
 ## Key Conventions
 
