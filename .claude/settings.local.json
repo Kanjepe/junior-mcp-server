@@ -1,20 +1,25 @@
 {
-	"permissions": {
-		"allow": [
-			"Bash(tree:*)",
-			"Bash(npm run:*)",
-			"Bash(node --version:*)",
-			"Bash(npm --version:*)",
-			"Bash(pnpm --version:*)",
-			"Bash(git:*)",
-			"WebSearch",
-			"WebFetch(domain:platform.openai.com)",
-			"WebFetch(domain:developers.openai.com)",
-			"WebFetch(domain:github.com)",
-			"Bash(pnpm build:*)",
-			"Bash(pnpm biome check:*)",
-			"Bash(node:*)",
-			"Bash(echo:*)"
-		]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(npm run:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(pnpm --version:*)",
+      "Bash(git:*)",
+      "WebSearch",
+      "WebFetch(domain:platform.openai.com)",
+      "WebFetch(domain:developers.openai.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm biome check:*)",
+      "Bash(node:*)",
+      "Bash(echo:*)",
+      "Bash(python3:*)",
+      "Bash(claude mcp add:*)",
+      "mcp__junior__junior_fetch",
+      "Bash(claude mcp list:*)",
+      "mcp__junior__ask_junior"
+    ]
+  }
 }
