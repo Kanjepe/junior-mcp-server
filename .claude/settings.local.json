@@ -1,12 +1,20 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(tree:*)",
-      "Bash(npm run:*)",
-      "Bash(node --version:*)",
-      "Bash(npm --version:*)",
-      "Bash(pnpm --version:*)",
-      "Bash(git init:*)"
-    ]
-  }
+	"permissions": {
+		"allow": [
+			"Bash(tree:*)",
+			"Bash(npm run:*)",
+			"Bash(node --version:*)",
+			"Bash(npm --version:*)",
+			"Bash(pnpm --version:*)",
+			"Bash(git:*)",
+			"WebSearch",
+			"WebFetch(domain:platform.openai.com)",
+			"WebFetch(domain:developers.openai.com)",
+			"WebFetch(domain:github.com)",
+			"Bash(pnpm build:*)",
+			"Bash(pnpm biome check:*)",
+			"Bash(node:*)",
+			"Bash(echo:*)"
+		]
+	}
 }
