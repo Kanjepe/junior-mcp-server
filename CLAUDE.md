@@ -101,3 +101,20 @@ Regex: `^(feat|fix|perf|test|docs|refactor|build|ci|chore|revert)(\([a-zA-Z0-9 ]
 - After implementing or removing any feature, update relevant documentation like README.md or CLAUDE.md.
 - Use Biome for formatting and linting, never ESLint
 - Use pnpm, never npm or yarn
+
+## Using Junior as a Sub-Agent
+
+Delegate to Junior (`ask_junior` / `junior_fetch`) as a sub-agent in these situations:
+
+### When to use `ask_junior`
+- **Complex coding tasks with large context** — Junior supports up to 400K tokens of context. When you need to analyze, refactor, or reason about large codebases, pass the full context to Junior and let him think through it.
+- **Second opinion on architecture or implementation** — Before committing to a complex approach, ask Junior to evaluate tradeoffs.
+- **Deep analysis that benefits from extended thinking** — Use `reasoning_effort: "xhigh"` for problems that need careful, step-by-step reasoning.
+
+### When to use `junior_fetch`
+- **Web search and research** — When you need to look up documentation, API references, changelogs, or any web content, delegate to `junior_fetch` instead of fetching yourself. Junior will fetch the page and extract the relevant information.
+
+### How to delegate effectively
+- Provide full context in the prompt — include relevant code, file contents, error messages, and constraints. Junior has a 400K token context window, so don't be shy about including everything he needs.
+- Be specific about what you want back — "analyze this code for performance issues" is better than "look at this code."
+- Use Junior as a sub-agent, not a replacement — delegate the task, review the result, then act on it yourself.
