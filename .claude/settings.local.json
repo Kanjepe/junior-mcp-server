@@ -19,7 +19,8 @@
       "Bash(claude mcp add:*)",
       "mcp__junior__junior_fetch",
       "Bash(claude mcp list:*)",
-      "mcp__junior__ask_junior"
+      "mcp__junior__ask_junior",
+      "mcp__junior__junior_review"
     ]
   }
 }
