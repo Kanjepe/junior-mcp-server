@@ -231,6 +231,80 @@ Returns: Creative ideas with deep reasoning process visible.`,
 	},
 );
 
+// === Tool 4: junior_fetch ===
+
+server.registerTool(
+	"junior_fetch",
+	{
+		title: "Junior Fetch",
+		description: `Have Junior fetch a web page and analyze its content.
+Fetches the URL and sends the raw HTML to Junior with your prompt.
+Uses "medium" reasoning effort since web extraction is usually straightforward.
+
+Args:
+  - url (string): The URL to fetch
+  - prompt (string): What to extract or analyze from the page
+
+Returns: Junior's analysis of the web content.`,
+		inputSchema: {
+			url: z.string().url("Must be a valid URL").describe("The URL to fetch"),
+			prompt: z
+				.string()
+				.min(1, "Tell Junior what to look for!")
+				.describe("What to extract or analyze from the page"),
+		},
+		annotations: {
+			readOnlyHint: true,
+			destructiveHint: false,
+			idempotentHint: true,
+			openWorldHint: true,
+		},
+	},
+	async (params) => {
+		const systemPrompt =
+			"You are a web content analyst. You receive raw HTML from a fetched web page. " +
+			"Extract the requested information clearly and concisely. " +
+			"Ignore navigation, ads, scripts, and other boilerplate — focus on the main content.";
+
+		try {
+			const response = await fetch(params.url);
+			if (!response.ok) {
+				throw new Error(
+					`Failed to fetch ${params.url}: ${response.status} ${response.statusText}`,
+				);
+			}
+			const html = await response.text();
+			const prompt = `${params.prompt}\n\nHere is the raw HTML from ${params.url}:\n\n${html}`;
+
+			const result = await callJunior(prompt, "medium", systemPrompt);
+			return {
+				content: [
+					{
+						type: "text" as const,
+						text: formatResponse(
+							result.text,
+							result.thinkingSummary,
+							result.usage,
+							"medium",
+						),
+					},
+				],
+			};
+		} catch (error: unknown) {
+			const msg = error instanceof Error ? error.message : String(error);
+			return {
+				content: [
+					{
+						type: "text" as const,
+						text: `❌ Junior's fetch failed: ${msg}`,
+					},
+				],
+				isError: true,
+			};
+		}
+	},
+);
+
 export async function startServer(): Promise<void> {
 	const transport = new StdioServerTransport();
 	await server.connect(transport);

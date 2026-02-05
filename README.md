@@ -15,6 +15,7 @@ Because two brains are better than one. Claude is your lead dev. Junior is the e
 | `ask_junior` | General-purpose — ask Junior anything | Configurable (default: high) |
 | `junior_review` | Code review with deep analysis | Always high |
 | `junior_brainstorm` | Creative brainstorming mode | Always xhigh (maximum thinking) |
+| `junior_fetch` | Fetch a web page and analyze its content | Always medium |
 
 ## Authentication
 
@@ -97,6 +98,7 @@ Just talk to Claude Code naturally:
 - *"have junior brainstorm a caching strategy for this API"*
 - *"ask junior what it thinks about this architecture"*
 - *"get junior to think hard about how to optimize this query"*
+- *"ask junior to fetch https://example.com and get the first headline"*
 
 ## Environment Variables
 

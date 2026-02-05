@@ -22,6 +22,7 @@ Junior is an MCP (Model Context Protocol) server that acts as a sidecar to Claud
 | `ask_junior` | General-purpose task delegation | Configurable (default: high) |
 | `junior_review` | Code review with senior-reviewer system prompt | Fixed: high |
 | `junior_brainstorm` | Creative brainstorming | Fixed: xhigh (maximum) |
+| `junior_fetch` | Fetch a web page and analyze its content | Fixed: medium |
 
 ## Architecture
 
