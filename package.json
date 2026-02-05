@@ -1,0 +1,25 @@
+{
+  "name": "junior-mcp-server",
+  "version": "1.0.0",
+  "description": "🧑‍💻 'Junior' — your OpenAI-powered intern inside Claude Code. Delegates tasks to GPT-5.2-Codex with thinking enabled.",
+  "main": "dist/index.js",
+  "bin": {
+    "junior-mcp": "dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["mcp", "openai", "claude-code", "gpt-5.2-codex", "junior"],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
