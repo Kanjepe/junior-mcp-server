@@ -6,6 +6,7 @@ import {
 	type StoredTokens,
 	saveTokens,
 } from "../auth/token-store.js";
+import { checkRateLimit, recordRateLimit } from "./rate-limit.js";
 
 // Resolve config from env vars with defaults
 export const config = {
@@ -108,6 +109,12 @@ export async function callJunior(
 	reasoningEffort: string,
 	systemPrompt?: string,
 ): Promise<{ text: string; thinkingSummary: string; usage: string }> {
+	// Check rate limit before making any API call
+	const rateLimitMsg = checkRateLimit();
+	if (rateLimitMsg) {
+		throw new Error(rateLimitMsg);
+	}
+
 	const credentials = await resolveCredentials();
 
 	const input: Array<Record<string, unknown>> = [];
@@ -129,6 +136,9 @@ export async function callJunior(
 
 	if (!response.ok) {
 		const errorBody = await response.text();
+		if (response.status === 429) {
+			recordRateLimit(response.headers.get("retry-after"));
+		}
 		throw new Error(
 			`Junior got rejected (${response.status}): ${errorBody}\n` +
 				`Model: ${config.model} | Reasoning: ${reasoningEffort}`,
