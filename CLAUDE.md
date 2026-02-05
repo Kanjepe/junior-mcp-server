@@ -104,12 +104,22 @@ Regex: `^(feat|fix|perf|test|docs|refactor|build|ci|chore|revert)(\([a-zA-Z0-9 ]
 
 ## Using Junior as a Sub-Agent
 
-Delegate to Junior (`ask_junior` / `junior_fetch`) as a sub-agent in these situations:
+Delegate to Junior as a sub-agent in these situations:
 
 ### When to use `ask_junior`
 - **Complex coding tasks with large context** — Junior supports up to 400K tokens of context. When you need to analyze, refactor, or reason about large codebases, pass the full context to Junior and let him think through it.
 - **Second opinion on architecture or implementation** — Before committing to a complex approach, ask Junior to evaluate tradeoffs.
 - **Deep analysis that benefits from extended thinking** — Use `reasoning_effort: "xhigh"` for problems that need careful, step-by-step reasoning.
+
+### When to use `junior_review`
+- **Code review** — After writing or modifying code, pass it to `junior_review` for a thorough review. Junior will analyze for bugs, security issues, performance problems, and style.
+- **Pre-commit sanity check** — Before committing complex changes, have Junior review the diff to catch issues you might have missed.
+- **Focused reviews** — Use the `focus` parameter to target specific concerns like `"security"`, `"performance"`, or `"readability"`.
+
+### When to use `junior_brainstorm`
+- **Architecture and design decisions** — When facing multiple valid approaches, let Junior brainstorm with maximum thinking power (xhigh) and rank options by recommendation.
+- **Naming and API design** — When naming things or designing interfaces, Junior can generate diverse options with tradeoff analysis.
+- **Exploring solutions to hard problems** — When you're stuck or want creative alternatives, describe the problem and constraints and let Junior think deeply.
 
 ### When to use `junior_fetch`
 - **Web search and research** — When you need to look up documentation, API references, changelogs, or any web content, delegate to `junior_fetch` instead of fetching yourself. Junior will fetch the page and extract the relevant information.
