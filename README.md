@@ -120,6 +120,10 @@ claude mcp add junior-fast \
 
 Now you have both `junior` (heavy thinker) and `junior-fast` (quick answers).
 
+## Rate Limiting
+
+If OpenAI returns a 429 (rate limited) response, Junior records the cooldown period from the `Retry-After` header (defaults to 60 seconds if absent). During cooldown, all tool calls return immediately with a message showing the remaining wait time instead of hitting the API. The cooldown resets when the server restarts.
+
 ## License
 
 MIT — go wild.
