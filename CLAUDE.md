@@ -73,6 +73,6 @@ Regex: `^(feat|fix|perf|test|docs|refactor|build|ci|chore|revert)(\([a-zA-Z0-9 ]
 
 ## Rules
 
-- After implementing or removing any feature, update relevant documentation in `docs/`
+- After implementing or removing any feature, update relevant documentation like README.md or CLAUDE.md.
 - Use Biome for formatting and linting, never ESLint
 - Use pnpm, never npm or yarn
