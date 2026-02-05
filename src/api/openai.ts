@@ -77,8 +77,30 @@ async function resolveCredentials(): Promise<Credentials> {
 			Authorization: `Bearer ${tokens.access_token}`,
 			"Chatgpt-Account-Id": tokens.chatgpt_account_id,
 		},
-		extraBody: { store: false },
+		extraBody: { store: false, stream: true },
 	};
+}
+
+async function parseStreamResponse(response: Response): Promise<OpenAIResponse> {
+	const text = await response.text();
+	const lines = text.split("\n");
+
+	for (let i = lines.length - 1; i >= 0; i--) {
+		const line = lines[i];
+		if (line.startsWith("data: ")) {
+			const json = line.slice(6);
+			try {
+				const event = JSON.parse(json);
+				if (event.type === "response.completed" && event.response) {
+					return event.response as OpenAIResponse;
+				}
+			} catch {
+				// skip malformed lines
+			}
+		}
+	}
+
+	throw new Error("No response.completed event found in stream");
 }
 
 export async function callJunior(
@@ -89,15 +111,11 @@ export async function callJunior(
 	const credentials = await resolveCredentials();
 
 	const input: Array<Record<string, unknown>> = [];
-
-	if (systemPrompt) {
-		input.push({ role: "developer", content: systemPrompt });
-	}
-
 	input.push({ role: "user", content: prompt });
 
 	const body: Record<string, unknown> = {
 		model: config.model,
+		instructions: systemPrompt ?? "You are a helpful assistant.",
 		input,
 		reasoning: { effort: reasoningEffort },
 		...credentials.extraBody,
@@ -117,7 +135,9 @@ export async function callJunior(
 		);
 	}
 
-	const data = (await response.json()) as OpenAIResponse;
+	const data = body.stream
+		? await parseStreamResponse(response)
+		: ((await response.json()) as OpenAIResponse);
 
 	let text = "";
 	let thinkingSummary = "";
