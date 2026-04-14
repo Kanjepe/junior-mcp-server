@@ -10,7 +10,7 @@ import { checkRateLimit, recordRateLimit } from "./rate-limit.js";
 
 // Resolve config from env vars with defaults
 export const config = {
-	model: process.env.JUNIOR_MODEL ?? "gpt-5.2-codex",
+	model: process.env.JUNIOR_MODEL ?? "gpt-5.3-codex",
 	reasoningEffort: process.env.JUNIOR_REASONING ?? "high",
 };
 

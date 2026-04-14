@@ -2,7 +2,7 @@
 
 > "Hey Junior, go figure this out..."
 
-**Junior** is an MCP server that gives Claude Code a sidekick — an OpenAI-powered intern (GPT-5.2-Codex) with extended thinking enabled. Delegate tasks, get second opinions, and let Junior do the heavy lifting while Claude stays in charge.
+**Junior** is an MCP server that gives Claude Code a sidekick — an OpenAI-powered intern (GPT-5.3-Codex) with extended thinking enabled. Delegate tasks, get second opinions, and let Junior do the heavy lifting while Claude stays in charge.
 
 ## Why?
 
@@ -105,7 +105,7 @@ Just talk to Claude Code naturally:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `OPENAI_API_KEY` | (optional) | OpenAI API key. If not set, uses OAuth tokens |
-| `JUNIOR_MODEL` | `gpt-5.2-codex` | Which OpenAI model Junior uses |
+| `JUNIOR_MODEL` | `gpt-5.3-codex` | Which OpenAI model Junior uses |
 | `JUNIOR_REASONING` | `high` | Default reasoning effort: `low`, `medium`, `high`, `xhigh` |
 
 ## Example: Switch to a cheaper model for simple tasks
